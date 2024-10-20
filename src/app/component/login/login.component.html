@@ -1,0 +1,43 @@
+@if (loggedIn) {
+<app-transaction></app-transaction>
+} @else {
+<div dir="rtl">
+  <div class="card mx-auto" style="width: 18rem;">
+    <div class="card-header bg-success">
+      خوش آمدید!
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <label> نام کاربری (کد ملی اولیه) </label>
+        <input type="text" [(ngModel)]="userObj.username" class="form-control" dir="ltr" />
+      </div>
+      <div class="row">
+        <label> گذرواژه (شماره موبایل اولیه) </label>
+        <input type="password" [(ngModel)]="userObj.password" class="form-control" dir="ltr" />
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-success m-5" (click)="login(userObj)"> نمایش تراکنش‌ها </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal"  dir="rtl">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">خطا</h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>مشخصات اشتباهند</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">بستن</button>
+      </div>
+    </div>
+  </div>
+</div>
+}

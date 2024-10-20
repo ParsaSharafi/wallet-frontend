@@ -1,0 +1,181 @@
+<div class="row" dir="rtl">
+  <div class="col">
+    <div class="card">
+      <div class="card-header bg-success">
+        شناسه یکتا: {{personObj.id}}
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-3">
+            <label>کد ملی</label>
+            <input type="text" [(ngModel)]="personObj.nationalId" class="form-control" dir="ltr" />
+          </div>
+          <div class="col-3">
+            <label>شماره موبایل</label>
+            <input type="text" [(ngModel)]="personObj.phoneNumber" class="form-control" dir="ltr" />
+          </div>
+          <div class="col-3">
+            <label>نام</label>
+            <input type="text" [(ngModel)]="personObj.firstName" class="form-control" />
+          </div>
+          <div class="col-3">
+            <label>نام خانوادگی</label>
+            <input type="text" [(ngModel)]="personObj.lastName" class="form-control" />
+          </div>
+          <div class="col-3">
+            <label>تاریخ تولد</label>
+            <ng-persian-datepicker>
+              <input type="text" [formControl]="birthDateValue" [(ngModel)]="personObj.birthDate" class="form-control" />
+            </ng-persian-datepicker>
+          </div>
+          <div class="col-2">
+            <label>جنسیت</label>
+            <select [(ngModel)]="personObj.gender" class="form-control">
+              <option>مرد</option>
+              <option>زن</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <label>وضعیت سربازی آقایان</label>
+            <select [(ngModel)]="personObj.militaryServiceStatus" class="form-control">
+              @for (status of statuses; track status) {
+              <option>{{status}}</option>
+              }
+            </select>
+          </div>
+          <div class="col-4">
+            <label>ایمیل</label>
+            <input type="text" [(ngModel)]="personObj.email" class="form-control" dir="ltr" />
+          </div>
+          <div class="col-1">
+            <button class="btn btn-warning m-3" (click)="newPerson()" [disabled]="personObj.id == 0"> جدید </button>
+          </div>
+          <div class="col-8"></div>
+          <div class="col-1">
+            <button class="btn btn-success m-3" (click)="savePerson()"> {{personObj.id == 0 ? 'ذخیره' : 'به‌روزرسانی'}}  </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-header bg-success">
+        شناسه یکتا: {{accountObj.ownerId}}
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <label>شماره حساب</label>
+            <input type="text" [(ngModel)]="accountObj.accountNumber" class="form-control" dir="ltr" />
+          </div>
+          <div class="col-12">
+            <label>شبا</label>
+            <input type="text" [(ngModel)]="accountObj.iban" class="form-control" dir="ltr" />
+          </div>
+          <div class="col-3">
+            <label>تاریخ ایجاد</label>
+            <ng-persian-datepicker>
+              <input type="text" [formControl]="openDateValue" [(ngModel)]="accountObj.openingDate" class="form-control" />
+            </ng-persian-datepicker>
+          </div>
+          <div class="col-6">
+            <label>موجودی</label>
+            <input type="number" [(ngModel)]="accountObj.balance" class="form-control" dir="ltr" />
+          </div>
+          <div class="col-3">
+            <button class="btn btn-success m-3" (click)="saveAccount()" [disabled]="accountObj.ownerId == 0 || accountObj.balance < 10000"> {{isCreatingAccount ? 'ذخیره' : 'به‌روزرسانی'}} </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" dir="rtl">
+  @if (dataIsReady) {
+  @for (person of persons; track person.id) {
+  <div class="col-3">
+    <div class="card">
+      <div class="card-header bg-success">
+        شناسه یکتا: {{person.id}}
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <label>کد ملی</label>
+            <input type="text" value="{{person.nationalId}}" class="form-control" dir="ltr" readonly />
+          </div>
+          <div class="col-6">
+            <label>شماره موبایل</label>
+            <input type="text" value="{{person.phoneNumber}}" class="form-control" dir="ltr" readonly />
+          </div>
+          <div class="col-6">
+            <label>نام</label>
+            <input type="text" value="{{person.firstName}}" class="form-control" readonly />
+          </div>
+          <div class="col-6">
+            <label>نام خانوادگی</label>
+            <input type="text" value="{{person.lastName}}" class="form-control" readonly />
+          </div>
+          <div class="col-6">
+            <label>تاریخ تولد</label>
+            <input type="text" value="{{person.birthDate}}" class="form-control" readonly />
+          </div>
+          <div class="col-6">
+            <label>وضعیت سربازی آقایان</label>
+            <input type="text" value="{{person.militaryServiceStatus}}" class="form-control" readonly />
+          </div>
+          <div class="col-3">
+            <label>جنسیت</label>
+            <input type="text" value="{{person.gender}}" class="form-control" readonly />
+          </div>
+          <div class="col-9">
+            <label>ایمیل</label>
+            <input type="text" value="{{person.email}}" class="form-control" readonly />
+          </div>
+          <div class="col-6">
+            <button class="btn btn-danger m-1" (click)="deletePerson(person.id)"> حذف شخص </button>
+          </div>
+          <div class="col-6">
+            <button class="btn btn-primary m-1" (click)="updatePerson(person)"> ویرایش شخص </button>
+          </div>
+          @if (person.account == null) {
+          <div class="col-6">
+            <button class="btn btn-secondary m-1" (click)="newAccount(person.id)"> افزودن حساب </button>
+          </div>
+          } @else {
+          <div class="col-6">
+            <button class="btn btn-danger m-1" (click)="deleteAccount(person.id)"> حذف حساب </button>
+          </div>
+          <div class="col-6">
+            <button class="btn btn-primary m-1" (click)="updateAccount(person.account)"> ویرایش حساب </button>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  }}
+  @else {
+  <div class="spinner-border"></div>
+  }
+</div>
+
+@for (error of (errors | keyvalue); track error.key) {
+<div class="modal" id="{{error.key}}"  dir="rtl">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">خطا</h5>
+        <button type="button" class="btn-close" (click)="closeModal(error.key)" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{error.value}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal(error.key)">بستن</button>
+      </div>
+    </div>
+  </div>
+</div>
+}

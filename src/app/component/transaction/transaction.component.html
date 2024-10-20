@@ -1,0 +1,73 @@
+@if (transactions.length) {
+<div class="container" dir="rtl">
+  <div class="row text-center">
+    <div class="col">
+      <p class="bg-info">کاربر: {{loggedInInfo.name}}</p>
+    </div>
+    <div class="col">
+      <p>شماره‌حساب: {{loggedInInfo.accountNumber}}</p>
+    </div>
+    <div class="col">
+      <p class="bg-warning">موجودی: {{loggedInInfo.balance}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label> مقدار (ریال) </label>
+      <input type="number" [(ngModel)]="amount" class="form-control" dir="ltr" />
+    </div>
+    <div class="col">
+      <button class="btn btn-success m-3" [disabled]="amount<=0" (click)="addTransaction(amount, false)"> واریز </button>
+    </div>
+    <div class="col">
+      <button class="btn btn-danger m-3" [disabled]="amount<100000 || amount>10000000" (click)="addTransaction(amount, true)"> برداشت </button>
+    </div>
+    <div class="col">
+      <button class="btn btn-danger m-3" (click)="logout()"> خروج </button>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+          <th>شماره پیگیری</th>
+          <th>مقدار</th>
+          <th>تاریخ</th>
+          <th>ساعت</th>
+          <th>نتیجه</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (transaction of transactions; track transaction.id) {
+        <tr>
+          <td>{{transaction.id}}</td>
+          <td dir="ltr">{{transaction.signedAmount}}</td>
+          <td>{{transaction.date}}</td>
+          <td>{{transaction.time}}</td>
+          <td>{{transaction.successful ? 'موفق' : 'ناموفق'}}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+}
+
+@for (error of (errors | keyvalue); track error.key) {
+<div class="modal" id="{{error.key}}" dir="rtl">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">خطا</h5>
+        <button type="button" class="btn-close" (click)="closeModal(error.key)" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{error.value}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal(error.key)">بستن</button>
+      </div>
+    </div>
+  </div>
+</div>
+}
